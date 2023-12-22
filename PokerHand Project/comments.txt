@@ -1,0 +1,98 @@
+2D, 2H, 2C, AH, AD,  Full House::You returned: Three of a Kind
+2C, 2H, 2D, AD, AH,  Full House::You returned: Three of a Kind
+4H, 4S, 5D, 5H, 6C,  Pair::You returned: Three of a Kind
+4D, 4C, 5S, 5C, 6H,  Pair::You returned: Three of a Kind
+QC, QD, KC, KS, AH,  Pair::You returned: Three of a Kind
+3S, 3C, 4H, 4S, 5D,  Pair::You returned: Three of a Kind
+5H, 5S, 6H, 6D, 7C,  Pair::You returned: Three of a Kind
+7H, 7D, 8D, 8C, 9S,  Pair::You returned: Three of a Kind
+QD, QH, KD, KC, AS,  Pair::You returned: Three of a Kind
+9H, 9D, 10D, 10C, JS,  Pair::You returned: Three of a Kind
+2D, 2H, 3D, 3C, 4S,  Pair::You returned: Three of a Kind
+9H, 9D, 10D, 10C, JS,  Pair::You returned: Three of a Kind
+JD, JC, QS, QC, KH,  Pair::You returned: Three of a Kind
+6H, 6S, 7D, 7H, 8C,  Pair::You returned: Three of a Kind
+JS, JC, QH, QS, KD,  Pair::You returned: Three of a Kind
+QC, QS, KS, KH, AD,  Pair::You returned: Three of a Kind
+6D, 6C, 7S, 7C, 8H,  Pair::You returned: Three of a Kind
+9H, 9S, 10H, 10D, JC,  Pair::You returned: Three of a Kind
+9S, 9H, 10D, 10H, JC,  Pair::You returned: Three of a Kind
+8C, 8D, 9C, 9S, 10H,  Pair::You returned: Three of a Kind
+10S, 10H, JH, JD, QC,  Pair::You returned: Three of a Kind
+2H, KD, KC, AS, AC,  Pair::You returned: Two Pair
+2H, 2S, 3D, AS, AC,  Pair::You returned: Two Pair
+10D, 10H, JD, JC, QS,  Pair::You returned: Three of a Kind
+QS, QC, KS, KH, AD,  Pair::You returned: Three of a Kind
+4S, 4C, 5H, 5S, 6D,  Pair::You returned: Three of a Kind
+2C, 2D, 2S, AC, AD,  Full House::You returned: Three of a Kind
+QH, QD, KD, KC, AS,  Pair::You returned: Three of a Kind
+2H, 2D, 3C, 3D, 4S,  Pair::You returned: Three of a Kind
+3H, 3S, 4H, 4D, 5C,  Pair::You returned: Three of a Kind
+2H, KD, KC, AC, AS,  Pair::You returned: Two Pair
+3D, 3C, 4S, 4C, 5H,  Pair::You returned: Three of a Kind
+9H, 9S, 10H, 10D, JC,  Pair::You returned: Three of a Kind
+JH, JD, QC, QD, KS,  Pair::You returned: Three of a Kind
+3H, 3S, 4H, 4D, 5C,  Pair::You returned: Three of a Kind
+JH, JS, QH, QD, KC,  Pair::You returned: Three of a Kind
+5C, 5D, 6C, 6S, 7H,  Pair::You returned: Three of a Kind
+JC, JD, QC, QS, KH,  Pair::You returned: Three of a Kind
+2H, KC, KD, AS, AC,  Pair::You returned: Two Pair
+2C, 2D, 3C, 3S, 4H,  Pair::You returned: Three of a Kind
+2S, 2C, 3H, AC, AD,  Pair::You returned: Two Pair
+7C, 7D, 8S, 8C, 9H,  Pair::You returned: Three of a Kind
+10D, 10C, JS, JC, QH,  Pair::You returned: Three of a Kind
+2S, 2D, 2H, 2C, AC,  4ok::You returned: Two Pair
+2H, 2D, 2S, 2C, AS,  4ok::You returned: Two Pair
+8S, 8C, 9H, 9S, 10D,  Pair::You returned: Three of a Kind
+4S, 4H, 5H, 5D, 6C,  Pair::You returned: Three of a Kind
+QC, QS, KH, KS, AD,  Pair::You returned: Three of a Kind
+JH, JS, QH, QD, KC,  Pair::You returned: Three of a Kind
+7H, 7S, 8H, 8D, 9C,  Pair::You returned: Three of a Kind
+10C, 10S, JS, JH, QD,  Pair::You returned: Three of a Kind
+5C, 5S, 6H, 6S, 7D,  Pair::You returned: Three of a Kind
+JC, JS, QH, QS, KD,  Pair::You returned: Three of a Kind
+9S, 9C, 10S, 10H, JD,  Pair::You returned: Three of a Kind
+4D, 4C, 5S, 5C, 6H,  Pair::You returned: Three of a Kind
+QH, QS, KH, KD, AC,  Pair::You returned: Three of a Kind
+6H, 6D, 7C, 7D, 8S,  Pair::You returned: Three of a Kind
+2S, 2C, 3H, 3S, 4D,  Pair::You returned: Three of a Kind
+3S, 3H, 4H, 4D, 5C,  Pair::You returned: Three of a Kind
+7H, 7S, 8D, 8H, 9C,  Pair::You returned: Three of a Kind
+2H, 2D, 3C, AH, AS,  Pair::You returned: Two Pair
+2S, 2D, 2C, AC, AD,  Full House::You returned: Three of a Kind
+2C, 2D, 2S, AC, AD,  Full House::You returned: Three of a Kind
+4H, 4D, 5C, 5D, 6S,  Pair::You returned: Three of a Kind
+10D, 10C, JC, JS, QH,  Pair::You returned: Three of a Kind
+QH, QS, KH, KD, AC,  Pair::You returned: Three of a Kind
+JH, JS, QH, QD, KC,  Pair::You returned: Three of a Kind
+4C, 4D, 5S, 5C, 6H,  Pair::You returned: Three of a Kind
+6H, 6S, 7H, 7D, 8C,  Pair::You returned: Three of a Kind
+2D, KS, KC, AH, AS,  Pair::You returned: Two Pair
+2H, KD, KC, AC, AS,  Pair::You returned: Two Pair
+7H, 7D, 8C, 8D, 9S,  Pair::You returned: Three of a Kind
+2C, KH, KS, AH, AD,  Pair::You returned: Two Pair
+7D, 7H, 8C, 8D, 9S,  Pair::You returned: Three of a Kind
+3C, 3S, 4H, 4S, 5D,  Pair::You returned: Three of a Kind
+6C, 6D, 7C, 7S, 8H,  Pair::You returned: Three of a Kind
+10S, 10C, JH, JS, QD,  Pair::You returned: Three of a Kind
+6D, 6H, 7C, 7D, 8S,  Pair::You returned: Three of a Kind
+QH, QD, KD, KC, AS,  Pair::You returned: Three of a Kind
+2D, 2C, 2S, AC, AD,  Full House::You returned: Three of a Kind
+2S, 2C, 2D, AD, AC,  Full House::You returned: Three of a Kind
+2S, 2D, 2C, 2H, AC,  4ok::You returned: Two Pair
+8D, 8C, 9C, 9S, 10H,  Pair::You returned: Three of a Kind
+2S, 2H, 3D, AC, AS,  Pair::You returned: Two Pair
+2H, 2D, 3C, 3D, 4S,  Pair::You returned: Three of a Kind
+5C, 5S, 6S, 6H, 7D,  Pair::You returned: Three of a Kind
+10H, 10S, JH, JD, QC,  Pair::You returned: Three of a Kind
+2D, 2H, 3D, 3C, 4S,  Pair::You returned: Three of a Kind
+QC, QD, KC, KS, AH,  Pair::You returned: Three of a Kind
+9C, 9S, 10S, 10H, JD,  Pair::You returned: Three of a Kind
+discard incorrect: -25
+discard incorrect: -25
+Error in Deck Constructor/Deal Method
+Deck missing cards: -15
+Error in Deck. Deduction: 20
+score: 712.0
+total: 887.0
+percent: 80.27057497181511

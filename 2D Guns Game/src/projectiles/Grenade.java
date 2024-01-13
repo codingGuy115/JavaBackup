@@ -16,6 +16,9 @@ public class Grenade extends JComponent
 	private double dy;
 	
 	private boolean inStasis;
+	private boolean threshold = false;
+	private double maxDyValue = -100;
+	private double preservedEnergy = 0.5;
 	
 	public Grenade(int x, int y, int dx, int dy)
 	{
@@ -79,6 +82,45 @@ public class Grenade extends JComponent
 		this.inStasis = inStasis;
 		this.dy = 0;
 		this.dx = 0;
+	}
+	
+	public void checkDyValue()
+	{
+		if (getDy() > maxDyValue)
+		{
+			maxDyValue = getDy();
+		}
+	}
+
+
+	public double getMaxDyValue() 
+	{
+		return maxDyValue;
+	}
+
+
+	public void setThreshold(boolean threshold) 
+	{
+		this.threshold = threshold;
+		
+	}
+
+
+	public boolean getThreshold() 
+	{
+		return threshold;
+	}
+
+
+	public void incPreservedEnergy(double amount) 
+	{
+		preservedEnergy += amount;
+		
+	}
+	
+	public double getPreservedEnergy()
+	{
+		return preservedEnergy;
 	}
 	
 

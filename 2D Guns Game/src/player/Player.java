@@ -30,6 +30,7 @@ public class Player extends JComponent
 		g2.setColor(Color.BLUE);
 		g2.draw(humanoid);	
 		g2.fill(humanoid);
+		//
 	}
 	
 	//getter and setter for dx

@@ -12,26 +12,34 @@ import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import projectiles.Bullet;
 //Game specific import statements 
 import projectiles.Grenade;
+import projectiles.ShotgunPellet;
 import user_interface_components.GunDisplay;
 import user_interface_components.SelectBar;
 import environment.Ground;
+import obstacles.SolidBlock;
+import obstacles.WoodBlock;
 import player.Player;
 
 public class gameMain extends JFrame implements ActionListener
 {
 	
 	private Timer timer;
-	private double preserved_energy = 0.8;
+	private double preserved_energy = 0.8; /**(this doesnt apply to the grenades. originally, was going to make it
+	so only 1 grenade can be fired at a time, but i figured that would be boring. (can also make it a 
+	power up to have multiple at a time)*/
+	
 	private int gravStrength = 1;
-	private double maxDyValue;
-	private boolean threshold;
 	private int grenadeMaxRange = 20;
 	//^^ above from the grenade OG code
 	private Ground ground;
 	private Player player;
 	private ArrayList<Grenade> grenades;
+	private ArrayList<Bullet> bullets;
+	private ArrayList<ShotgunPellet> shotgunPellets;
+	private ArrayList<SolidBlock> blocks;
 	private GunDisplay gunDisplay;
 	private SelectBar sb1;
 	private SelectBar sb2;
@@ -41,6 +49,9 @@ public class gameMain extends JFrame implements ActionListener
 	public gameMain()
 	{
 		grenades = new ArrayList<Grenade>();
+		bullets = new ArrayList<Bullet>();
+		shotgunPellets = new ArrayList<ShotgunPellet>();
+		blocks = new ArrayList<SolidBlock>();
 		
 		this.setBounds(100, 100, 1300, 600);
 		this.setLayout(null);
@@ -63,6 +74,10 @@ public class gameMain extends JFrame implements ActionListener
 		this.add(sb1);
 		sb2 = new SelectBar(200, 81, 60, 10);
 		this.add(sb2);
+		
+		//TEMP
+		blocks.add(new WoodBlock(50, 50, Color.ORANGE));
+		this.add(blocks.get(0));
 		
 		timer = new Timer(25, this);
 		timer.start();
@@ -150,15 +165,34 @@ public class gameMain extends JFrame implements ActionListener
 						player.setJumps(0);
 					}
 					break;
-			// -- EVENTUALLY SWITCHING TO MOUSE LISTENER
-//				case KeyEvent.VK_K:
-//					if (!player.isFireHeld())
-//					{
-//						player.setFireHeld(true);
-//						grenades.add(0, new Grenade(player.getX()+player.getWidth(), player.getY()));
-//						add(grenades.get(0));
-//					}
-//					break;
+			// firing the pistol and the shotgun
+				case KeyEvent.VK_K:
+				{
+					if (!player.isFireHeld() && player.getGunHeld().equals("Pistol"))
+					{
+						//--TESTING
+						blocks.get(0).takeDamage(10);
+						System.out.println("Block HP: "+blocks.get(0).getHitpoints());
+						
+						bullets.add(0, new Bullet(player.getX()+player.getWidth(), player.getY()));
+						add(bullets.get(0));
+					}
+					
+					if (!player.isFireHeld() && player.getGunHeld().equals("Shotgun"))
+					{	//this will be for ONE shotgun shot event (gets repeated obviously)
+						for (int i=0; i<6; i++)
+						{
+							shotgunPellets.add(0, new ShotgunPellet(player.getX()+player.getWidth(), player.getY()));
+							add(shotgunPellets.get(0));
+						}
+						//TEMP
+						System.out.println("ShotgunPellets: "+shotgunPellets.size());
+					}
+								
+				}
+				player.setFireHeld(true);
+				break;
+					
 				case KeyEvent.VK_S:
 				{
 					//handling gun swaps
@@ -196,10 +230,10 @@ public class gameMain extends JFrame implements ActionListener
 				case KeyEvent.VK_SPACE:
 					player.setJumpHeld(false);
 					break;
-			// -- EVENTUALLY SWITCHING TO MOUSE LISTENER
-//				case KeyEvent.VK_K:
-//					player.setFireHeld(false);
-//					break;
+			// for pistol and shotgun
+				case KeyEvent.VK_K:
+					player.setFireHeld(false);
+					break;
 					
 				}
 			}
@@ -240,12 +274,76 @@ public class gameMain extends JFrame implements ActionListener
 				player.setGrounded(true);
 			}
 		}
+		
+		//updating SolidBlocks
+		for (int i=0; i<blocks.size(); i++)
+		{
+			SolidBlock sb = blocks.get(i);
+			sb.update();
+			sb.repaint();
+		}
+		
+		//updating bullets
+		for (int i=0; i<bullets.size(); i++)
+		{
+			Bullet b = bullets.get(i);
+			b.update();
+			//removing if leaves frame
+			if (b.getX() > 1300)
+			{
+				bullets.remove(i);
+				System.out.println("Bullets array size: "+bullets.size());
+			}
+		}
+		
+		//updating shotgun pellets
+		for (int i=0; i<shotgunPellets.size(); i++)
+		{
+			ShotgunPellet p = shotgunPellets.get(i);
+			p.update();
+			//removing if leaves frame or hits something
+			
+		}
+		
 		//updating grenades
 		for (Grenade g: grenades)
 		{
 			g.update();
 			g.setDy(g.getDy() + gravStrength);
 			
+			//checking if the threshold is reached
+			if (g.getMaxDyValue() > -17)
+			{
+				g.setThreshold(true);
+				//System.out.println("Threshold reached.");
+			}
+			
+			/**if this is true, basically it means the value for the ball to bounce up(negative bc of frame axis)
+			 * is small enough to be considered zero. 
+			 */
+			if(g.getMaxDyValue() > -0.3)
+			{
+				g.setLocation(g.getX(), ground.getY() - g.getHeight());
+				g.setInStasis(true);
+			}
+			
+			if (g.getBounds().intersects(ground.getBounds()))
+			{
+				//System.out.println(gball.getDy());
+				//this line ensures ball will bounce directly from the ground
+				g.setLocation(g.getX(), ground.getY() - g.getHeight());
+				
+				if (!g.getThreshold())
+					g.setDy(g.getDy() * -g.getPreservedEnergy());
+				else
+				{
+					System.out.println("Threshold is true");
+					g.incPreservedEnergy(-0.15);
+					g.setDy(g.getDy() * -g.getPreservedEnergy());
+				}
+				
+				g.checkDyValue();
+			}
 		}
 		
 	}

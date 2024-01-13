@@ -66,6 +66,10 @@ public class GravityFrame extends JFrame implements ActionListener
 			threshold = true;
 			//System.out.println("Threshold reached.");
 		}
+		
+		/**if this is true, basically it means the value for the ball to bounce up(negative bc of frame axis)
+		 * is small enough to be considered zero. 
+		 */
 		if(maxDyValue > -0.3)
 		{
 			gball.setLocation(gball.getX(), ground.getY() - gball.getHeight());

@@ -1,7 +1,6 @@
 package obstacles;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -14,15 +13,17 @@ public abstract class SolidBlock extends JComponent
 	//fields
 	private int dx;
 	private int dy;
-	private int blockWidth = 50;
-	private int blockHeight = 50;
+	private int blockWidth = 70;
+	private int blockHeight = 70;
 	private double startingHp;
 	private double hitpoints; //>when updating healthBar, need to take PERCENTAGE of this
+	private double barWidthConstant = blockWidth-6;
 	private double hbarWidthVal = blockWidth-6;
 	private Color color; //> might change this field to store an image for graphics instead
 	private Rectangle2D.Double blockDrawing;
 	private Rectangle2D.Double healthBarOutline;
 	private Rectangle2D.Double healthBar;
+	private boolean isHit;
 	
 	//constructors
 	public SolidBlock(int x, int y)
@@ -31,6 +32,7 @@ public abstract class SolidBlock extends JComponent
 		blockDrawing = new Rectangle2D.Double(0,0,blockWidth,blockHeight);
 		healthBarOutline = new Rectangle2D.Double(2,2,blockWidth-4, 10);
 		healthBar = new Rectangle2D.Double(3,3,(int)hbarWidthVal, 8);
+		isHit = false;
 	}
 
 	//methods
@@ -42,9 +44,10 @@ public abstract class SolidBlock extends JComponent
 	//WHEN BLOCK GETS HIT
 	public void takeDamage(double amount)
 	{
+		isHit = true;
 		hitpoints -= amount;
 		//updating value for actual width of visible Healthbar
-		double HpPerPixel = startingHp / 44;
+		double HpPerPixel = startingHp / barWidthConstant;
 		hbarWidthVal = hitpoints / HpPerPixel;
 		healthBar.setFrame(3, 3, hbarWidthVal, 8);
 	}
@@ -87,11 +90,12 @@ public abstract class SolidBlock extends JComponent
 		g2.draw(blockDrawing);
 		g2.fill(blockDrawing);
 		
+		if (isHit) {
 		g2.setColor(Color.black);
 		g2.draw(healthBarOutline);
 		g2.setColor(Color.green);
 		g2.draw(healthBar);
-		g2.fill(healthBar);
+		g2.fill(healthBar); }
 	}
 
 	public double getHitpoints() {

@@ -52,9 +52,17 @@ public class Player extends JComponent
 	}
 	
 	//update method
-	public void update()
+//	public void update()
+//	{
+//		this.setLocation(getX() + dx, getY() + dy);
+//	}
+	public void updateX()
 	{
-		this.setLocation(getX() + dx, getY() + dy);
+		this.setLocation(getX()+dx, getY());
+	}
+	public void updateY()
+	{
+		this.setLocation(getX(), getY()+dy);
 	}
 
 	public boolean isInStasis() {

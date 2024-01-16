@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -61,7 +60,7 @@ public class ShotgunPellet extends JComponent
 	public void paintComponent(Graphics g)
 	{
 		//type casting to a Graphics2D object in the method
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D)g;
 		g2.setColor(color);
 		//using inherited method
 		g2.draw(pellet);

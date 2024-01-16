@@ -75,9 +75,17 @@ public class gameMain extends JFrame implements ActionListener
 		sb2 = new SelectBar(200, 81, 60, 10);
 		this.add(sb2);
 		
-		//TEMP
-		blocks.add(new WoodBlock(50, 50, Color.ORANGE));
-		this.add(blocks.get(0));
+		//TEMP - SPAWNING BLOCKS
+		for (int x = 290; x<= 1200; x+=70)
+		{
+			for (int y = 260; y<=400; y+=70)
+			{
+				blocks.add(0, new WoodBlock(x, y, Color.ORANGE));
+				//blocks.get(0).setDx(-1);
+				this.add(blocks.get(0));
+			}
+		}
+		
 		
 		timer = new Timer(25, this);
 		timer.start();
@@ -157,7 +165,7 @@ public class gameMain extends JFrame implements ActionListener
 					player.setDx(3);
 					break;
 				case KeyEvent.VK_SPACE:
-					if (!player.isJumpHeld() && player.getJumps() == 1)
+					if (!player.isJumpHeld() && player.getJumps() == 1 && player.isGrounded())
 					{
 						player.setDy(-20);
 						player.setGrounded(false);
@@ -171,8 +179,8 @@ public class gameMain extends JFrame implements ActionListener
 					if (!player.isFireHeld() && player.getGunHeld().equals("Pistol"))
 					{
 						//--TESTING
-						blocks.get(0).takeDamage(10);
-						System.out.println("Block HP: "+blocks.get(0).getHitpoints());
+						//blocks.get(0).takeDamage(10);
+						//System.out.println("Block HP: "+blocks.get(0).getHitpoints());
 						
 						bullets.add(0, new Bullet(player.getX()+player.getWidth(), player.getY()));
 						add(bullets.get(0));
@@ -258,22 +266,77 @@ public class gameMain extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		this.repaint();
-		player.update();
+		player.updateX();
+		for (int i=0; i<blocks.size(); i++)
+		{
+			SolidBlock sb = blocks.get(i);
+			//player touches left of block
+			if (sb.getBounds().intersects(player.getBounds()))
+			{
+				//player hit a block. now to determine left or right side
+				if (player.getX() < sb.getX())
+				{
+					System.out.println("Player hit LEFT of block");
+					player.setDx(0);
+					player.setLocation(sb.getX()-player.getWidth(), player.getY());
+				}
+				if (player.getX() > sb.getX())
+				{
+					System.out.println("Player hit RIGHT of block");
+					player.setDx(0);
+					player.setLocation(sb.getX()+sb.getWidth(), player.getY());
+				}
+			}
+		}
 		
-		if (!player.isGrounded())
-		{	// changing the rate of change
+		player.updateY();
+		for (int i=0; i<blocks.size(); i++)
+		{
+			SolidBlock sb = blocks.get(i);
+			//player touches left of block
+			if (sb.getBounds().intersects(player.getBounds()))
+			{
+				//player hit a block. now to determine top or bottom side
+				if (player.getY() < sb.getY())
+				{
+					// - This is a special case, because it resets the players jumps and sets grounded=true
+					//System.out.println("Player hit TOP of block");
+					player.setDy(0);
+					player.setJumps(1);
+					player.setLocation(player.getX(), sb.getY()-player.getHeight());
+					player.setGrounded(true);
+				}
+				if (player.getY() > sb.getY())
+				{
+					System.out.println("Player hit BOTTOM of block");
+					player.setDy(0);
+					player.setLocation(player.getX(), sb.getY()+player.getHeight());
+				}
+			}
+		}
+		
+		/**making sure that if player falls off block, does NOT retain a jump
+		 * ... or fuck it we make it a feature???
+		 */
+		//System.out.println("Player Y:"+player.getY());
+		
+		
+		//only if the player is not on ground, GRAVITY acts on them (obviously not IRL lmao)
+		//if (!player.isGrounded())
+		//{	// changing the rate of change
 			player.setDy(player.getDy() + gravStrength);
-			//easier way to see if it intersects
+			
 			if (player.getBounds().intersects(ground.getBounds()))
 			{
 				player.setDy(0);
 				player.setJumps(1);
-				System.out.println("Player touched ground.");
+				//System.out.println("Player touched ground.");
 				//ensures player will land directly on ground
 				player.setLocation(player.getX(), ground.getY() - player.getHeight());
 				player.setGrounded(true);
 			}
-		}
+			
+		//}
 		
 		//updating SolidBlocks
 		for (int i=0; i<blocks.size(); i++)
@@ -281,6 +344,20 @@ public class gameMain extends JFrame implements ActionListener
 			SolidBlock sb = blocks.get(i);
 			sb.update();
 			sb.repaint();
+			//removing if health on any block <= 0
+			if (sb.getHitpoints()<=0)
+			{
+				blocks.remove(sb);
+				this.remove(sb);
+			}
+			//handling case where player collides with blocks
+//			if (sb.getBounds().intersects(player.getBounds()))
+//			{
+//				/**2 Cases: player is on top, or to side of a block*/
+//				//TOP
+//				if ()
+//				
+//			}
 		}
 		
 		//updating bullets
@@ -288,6 +365,17 @@ public class gameMain extends JFrame implements ActionListener
 		{
 			Bullet b = bullets.get(i);
 			b.update();
+			//handling bullets hitting obstacles
+			for (int k=0; k<blocks.size(); k++)
+			{
+				SolidBlock block = blocks.get(k);
+				if (b.getBounds().intersects(block.getBounds()))
+				{
+					block.takeDamage(10);
+					bullets.remove(b);
+					this.remove(b);
+				}
+			}
 			//removing if leaves frame
 			if (b.getX() > 1300)
 			{
@@ -301,14 +389,59 @@ public class gameMain extends JFrame implements ActionListener
 		{
 			ShotgunPellet p = shotgunPellets.get(i);
 			p.update();
-			//removing if leaves frame or hits something
+			//handling shotgun pellets hitting obstacles
+			for (int k=0; k<blocks.size(); k++)
+			{
+				SolidBlock block = blocks.get(k);
+				if (p.getBounds().intersects(block.getBounds()))
+				{
+					System.out.println("Pellet hit obstacle");
+					block.takeDamage(10);
+					shotgunPellets.remove(p);
+					this.remove(p);
+				}
+			}
+			//removing if leaves frame or hits ground
+			if (p.getBounds().intersects(ground.getBounds()) || p.getX() > 1300)
+			{
+				System.out.println("Shotgun Pellet hit ground/OOB");
+				shotgunPellets.remove(p);
+				this.remove(p);
+			}
 			
 		}
 		
 		//updating grenades
 		for (Grenade g: grenades)
 		{
-			g.update();
+			g.updateX();
+			g.updateY();
+			//checking if bounced off obstacle
+			for (int i=0; i<blocks.size(); i++)
+			{
+				SolidBlock sb = blocks.get(i);
+				if (g.getBounds().intersects(sb.getBounds()))
+				{
+					//WOODBLOCK
+					if (sb instanceof WoodBlock)
+					{
+						g.setLocation(g.getX(), sb.getY() - g.getHeight());
+						
+						if (!g.getThreshold())
+							g.setDy(g.getDy() * -g.getPreservedEnergy());
+						else
+						{
+							System.out.println("Threshold is true");
+							g.incPreservedEnergy(-0.15);
+							g.setDy(g.getDy() * -g.getPreservedEnergy());
+						}
+						
+						g.checkDyValue();
+					}
+					//OTHER...
+					
+				}
+			}
 			g.setDy(g.getDy() + gravStrength);
 			
 			//checking if the threshold is reached
@@ -344,6 +477,8 @@ public class gameMain extends JFrame implements ActionListener
 				
 				g.checkDyValue();
 			}
+			
+
 		}
 		
 	}

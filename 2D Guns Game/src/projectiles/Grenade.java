@@ -12,7 +12,7 @@ public class Grenade extends JComponent
 	private Ellipse2D.Double ball;
 	private Color color;
 	//sweetspot> dx:3, dy:-20
-	private int dx;
+	private double dx;
 	private double dy;
 	
 	private boolean inStasis;
@@ -37,9 +37,9 @@ public class Grenade extends JComponent
 		color = c;
 	}
 	
-	public void setDx(int dx)
+	public void setDx(double d)
 	{
-		this.dx = dx;
+		this.dx = d;
 	}
 	
 	public void setDy(double dy)
@@ -47,12 +47,16 @@ public class Grenade extends JComponent
 		this.dy = dy;
 	}
 	
-	public void update()
+	public void updateX()
 	{
-		this.setLocation(getX() + dx, (int)(this.getY() + dy));
+		this.setLocation((int)(getX() + dx), (int)(this.getY()));
+	}
+	public void updateY()
+	{
+		this.setLocation((int)getX(), (int)(this.getY() + dy));
 	}
 	
-	public int getDx()
+	public double getDx()
 	{
 		return dx;
 	}

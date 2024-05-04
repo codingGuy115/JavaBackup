@@ -44,7 +44,7 @@ public class GravityFrame extends JFrame implements ActionListener
 		this.add(gball);
 		//gball.setInStasis(true);
 		//gball.setDy(-24);
-		gball.setDx(3);
+		gball.setDx(0);
 		
 		timer = new Timer(25, this);
 		timer.start();

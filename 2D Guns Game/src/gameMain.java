@@ -27,13 +27,11 @@ public class gameMain extends JFrame implements ActionListener
 {
 	
 	private Timer timer;
-	private double preserved_energy = 0.8; /**(this doesnt apply to the grenades. originally, was going to make it
+	private double preserved_energy = 0.8; /**(this doesn't apply to the grenades. originally, was going to make it
 	so only 1 grenade can be fired at a time, but i figured that would be boring. (can also make it a 
 	power up to have multiple at a time)*/
 	
 	private int gravStrength = 1;
-	private int grenadeMaxRange = 20;
-	//^^ above from the grenade OG code
 	private Ground ground;
 	private Player player;
 	private ArrayList<Grenade> grenades;
@@ -414,34 +412,104 @@ public class gameMain extends JFrame implements ActionListener
 		//updating grenades
 		for (Grenade g: grenades)
 		{
+//			g.updateX();
+//			g.updateY();
+//			//checking if bounced off obstacle
+//			for (int i=0; i<blocks.size(); i++)
+//			{
+//				SolidBlock sb = blocks.get(i);
+//				if (g.getBounds().intersects(sb.getBounds()))
+//				{
+//					//WOODBLOCK
+//					if (sb instanceof WoodBlock)
+//					{
+//						g.setLocation(g.getX(), sb.getY() - g.getHeight());
+//						
+//						if (!g.getThreshold())
+//							g.setDy(g.getDy() * -g.getPreservedEnergy());
+//						else
+//						{
+//							System.out.println("Threshold is true");
+//							g.incPreservedEnergy(-0.15);
+//							g.setDy(g.getDy() * -g.getPreservedEnergy());
+//						}
+//						
+//						g.checkDyValue();
+//					}
+//					//OTHER...
+//					
+//				}
+//				
+//			}
+			// TESTING implementing player collision logic
 			g.updateX();
-			g.updateY();
-			//checking if bounced off obstacle
 			for (int i=0; i<blocks.size(); i++)
 			{
 				SolidBlock sb = blocks.get(i);
-				if (g.getBounds().intersects(sb.getBounds()))
+				double blockPresE = sb.getBlockPreservedEnergy();
+				
+				if (sb.getBounds().intersects(g.getBounds()))
 				{
-					//WOODBLOCK
-					if (sb instanceof WoodBlock)
+					//grenade hit a block. now to determine left or right side
+					if (g.getX() < sb.getX())
 					{
-						g.setLocation(g.getX(), sb.getY() - g.getHeight());
-						
+						System.out.println("grenade hit LEFT of block");
+						g.setLocation(sb.getX()-player.getWidth(), g.getY());
+						g.setDx(g.getDx() * -blockPresE);
+					}
+					if (g.getX() > sb.getX())
+					{
+						System.out.println("grenade hit RIGHT of block");
+						g.setLocation(sb.getX()+sb.getWidth(), g.getY());
+						g.setDx(g.getDx() * -blockPresE);
+					}
+				}
+			}
+			
+			g.updateY();
+			for (int i=0; i<blocks.size(); i++)
+			{
+				SolidBlock sb = blocks.get(i);
+				double blockPresE = sb.getBlockPreservedEnergy();
+				
+				if (sb.getBounds().intersects(g.getBounds()))
+				{
+					//player hit a block. now to determine top or bottom side
+					if (g.getY() < sb.getY())
+					{
+						System.out.println("grenade hit TOP of block");
+						g.setLocation(g.getX(), sb.getY() - g.getHeight());				
 						if (!g.getThreshold())
-							g.setDy(g.getDy() * -g.getPreservedEnergy());
+							g.setDy(g.getDy() * -blockPresE);
 						else
 						{
 							System.out.println("Threshold is true");
-							g.incPreservedEnergy(-0.15);
-							g.setDy(g.getDy() * -g.getPreservedEnergy());
+							blockPresE -= 0.15;
+							g.setDy(g.getDy() * -blockPresE);
 						}
 						
 						g.checkDyValue();
 					}
-					//OTHER...
-					
+					if (g.getY() > sb.getY())
+					{
+						System.out.println("grenade hit BOTTOM of block");
+						if (!g.getThreshold())
+							g.setDy(0);
+							//g.setDy(g.getDy() * -blockPresE);
+						else
+						{
+							System.out.println("Threshold is true");
+							blockPresE -= 0.15;
+							g.setDy(g.getDy() * -blockPresE);
+						}
+						
+						g.checkDyValue();
+					}
 				}
 			}
+			// END of test
+			
+			
 			g.setDy(g.getDy() + gravStrength);
 			
 			//checking if the threshold is reached
@@ -456,6 +524,7 @@ public class gameMain extends JFrame implements ActionListener
 			 */
 			if(g.getMaxDyValue() > -0.3)
 			{
+				System.out.println("ball put on ground");
 				g.setLocation(g.getX(), ground.getY() - g.getHeight());
 				g.setInStasis(true);
 			}

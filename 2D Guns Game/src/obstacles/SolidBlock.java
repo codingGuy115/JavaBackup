@@ -24,13 +24,14 @@ public abstract class SolidBlock extends JComponent
 	private Rectangle2D.Double healthBarOutline;
 	private Rectangle2D.Double healthBar;
 	private boolean isHit;
+	private double blockPreservedEnergy = 0.5;
 	
 	//constructors
-	public SolidBlock(int x, int y)
+	public SolidBlock(int x, int y, int width, int height)
 	{
-		this.setBounds(x, y, blockWidth+1, blockHeight+1);
-		blockDrawing = new Rectangle2D.Double(0,0,blockWidth,blockHeight);
-		healthBarOutline = new Rectangle2D.Double(2,2,blockWidth-4, 10);
+		this.setBounds(x, y, width+1, height+1);
+		blockDrawing = new Rectangle2D.Double(0,0,width,height);
+		healthBarOutline = new Rectangle2D.Double(2,2,width-4, 10);
 		healthBar = new Rectangle2D.Double(3,3,(int)hbarWidthVal, 8);
 		isHit = false;
 	}
@@ -112,6 +113,14 @@ public abstract class SolidBlock extends JComponent
 
 	public void setStartingHp(double startingHp) {
 		this.startingHp = startingHp;
+	}
+
+	public double getBlockPreservedEnergy() {
+		return blockPreservedEnergy;
+	}
+
+	public void setBlockPreservedEnergy(double blockPreservedEnergy) {
+		this.blockPreservedEnergy = blockPreservedEnergy;
 	}
 	
 	

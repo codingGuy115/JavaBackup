@@ -6,5 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="TestArea"/>
+	<classpathentry kind="src" path="ClassStorageOldVersions"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

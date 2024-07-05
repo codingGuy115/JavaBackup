@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 public class Main 
 {	
 	//fields
@@ -8,11 +10,15 @@ public class Main
 	private int mazeCols;
 	private ArrayList<Node> holyPath;
 	
+	//for GUI representation
+	private JFrame frame;
+	
+	
 	//entrypoint to program
 	public Main()
 	{
-		mazeRows = 10;
-		mazeCols = 10;
+		mazeRows = 3;
+		mazeCols = 3;
 		nodes = new Node[mazeRows][mazeCols];
 		holyPath = new ArrayList<Node>();
 		//fill up the array
@@ -61,6 +67,7 @@ public class Main
 		
 		Node cnode = graph[row][col]; System.out.println("CURRENT NODE: "+cnode.getID());
 		cnode.setVisited(true);
+		//holyPath.add(cnode);
 		if (!doesIDExist(holyPath, cnode))
 		{	
 			holyPath.add(cnode); 
@@ -87,10 +94,7 @@ public class Main
 		Node choice = neighbors.get((int) (Math.random()*neighbors.size() + 0));
 		if(!choice.isVisited()) {
 			choice.setVisited(true);
-			if (!doesIDExist(holyPath, choice))
-			{	
-				holyPath.add(choice); 
-			}
+			holyPath.add(choice);
 			dfs(graph, choice.getRow(), choice.getCol());
 		}
 		else {
@@ -218,7 +222,6 @@ public class Main
 				}
 			}
 		}
-		
 		return null;
 	}
 	
